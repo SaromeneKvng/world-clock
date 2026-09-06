@@ -10,7 +10,7 @@ import { type City, findCity } from "./lib/cities";
 
 type Tab = "clock" | "converter";
 
-const DEFAULT_CITY_IDS = ["tehran", "riyadh", "tokyo", "dhaka"];
+const DEFAULT_CITY_IDS: string[] = [];
 
 function App() {
   const now = useNow();
