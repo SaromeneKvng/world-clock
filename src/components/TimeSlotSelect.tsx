@@ -10,9 +10,9 @@ interface TimeSlotSelectProps {
 
 export function TimeSlotSelect({ label, options, selectedIndex, onChange }: TimeSlotSelectProps) {
   return (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex w-full flex-wrap items-center justify-between gap-x-2 gap-y-1">
       <p className="text-sm text-[#92939e]">{label}</p>
-      <div className="relative flex items-center gap-1 rounded-lg border border-[#e5e5e5] bg-[#fafaf9] px-2 py-1 dark:border-white/10 dark:bg-white/5">
+      <div className="relative flex shrink-0 items-center gap-1 rounded-lg border border-[#e5e5e5] bg-[#fafaf9] px-2 py-1 dark:border-white/10 dark:bg-white/5">
         <select
           value={selectedIndex}
           onChange={(e) => onChange(Number(e.target.value))}

@@ -42,7 +42,7 @@ export function TimeConverterPage({ now, hour12, onHour12Change, dark, onDarkCha
   const excludeForTarget = useMemo(() => [originId], [originId]);
 
   return (
-    <div className="flex w-full flex-col gap-12">
+    <div className="flex w-full flex-col gap-8 sm:gap-12">
       <PageHeading
         title="Time Converter"
         subtitle="Simultaneous multi-timezone conversion"
@@ -53,8 +53,8 @@ export function TimeConverterPage({ now, hour12, onHour12Change, dark, onDarkCha
       />
 
       <div className="flex w-full flex-col gap-4">
-        <div className="flex w-full flex-col gap-8 rounded-[28px] bg-white p-8 dark:bg-[#141416]">
-          <div className="flex w-full items-center gap-3">
+        <div className="flex w-full flex-col gap-6 rounded-[28px] bg-white p-5 xs:p-6 sm:gap-8 sm:p-8 dark:bg-[#141416]">
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center">
             <div className="flex flex-1 flex-col gap-2">
               <div className="flex items-center justify-between text-sm tracking-[-0.28px] text-zinc-400 uppercase">
                 <span>From city (origin)</span>
@@ -70,9 +70,9 @@ export function TimeConverterPage({ now, hour12, onHour12Change, dark, onDarkCha
                 setTargetId(originId);
               }}
               aria-label="Swap origin and target"
-              className="mt-6 flex size-12 shrink-0 items-center justify-center rounded-full border border-[#d4d4d4] transition-colors hover:bg-slate-50 dark:border-white/15 dark:hover:bg-white/5"
+              className="flex size-12 shrink-0 items-center justify-center self-center rounded-full border border-[#d4d4d4] transition-colors hover:bg-slate-50 sm:mt-6 sm:self-auto dark:border-white/15 dark:hover:bg-white/5"
             >
-              <ArrowLeftRightIcon className="size-5 text-black dark:text-white" />
+              <ArrowLeftRightIcon className="size-5 rotate-90 text-black sm:rotate-0 dark:text-white" />
             </button>
 
             <div className="flex flex-1 flex-col gap-2">
@@ -84,9 +84,9 @@ export function TimeConverterPage({ now, hour12, onHour12Change, dark, onDarkCha
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5">
             <p className="text-sm text-zinc-500 uppercase dark:text-white/40">Quick comparisons</p>
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {QUICK_COMPARISONS.map((preset) => (
                 <button
                   key={preset.label}
@@ -96,7 +96,7 @@ export function TimeConverterPage({ now, hour12, onHour12Change, dark, onDarkCha
                     setTargetId(preset.targetId);
                     setManualInstant(null);
                   }}
-                  className="rounded-lg border border-[#e5e5e5] bg-[#f5f5f4] px-2 py-1 text-sm text-zinc-500 transition-colors hover:border-zinc-300 dark:border-white/10 dark:bg-white/5 dark:text-white/60"
+                  className="rounded-lg border border-[#e5e5e5] bg-[#f5f5f4] px-2 py-1 text-sm whitespace-nowrap text-zinc-500 transition-colors hover:border-zinc-300 dark:border-white/10 dark:bg-white/5 dark:text-white/60"
                 >
                   {preset.label}
                 </button>
@@ -105,7 +105,7 @@ export function TimeConverterPage({ now, hour12, onHour12Change, dark, onDarkCha
           </div>
         </div>
 
-        <div className="flex w-full items-center gap-4">
+        <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center">
           <TimeDetailCard label="Origin Time" city={origin} instant={instant} hour12={hour12} onSetInstant={setManualInstant} />
           <TimeDetailCard label="Target Time" city={target} instant={instant} hour12={hour12} onSetInstant={setManualInstant} />
         </div>

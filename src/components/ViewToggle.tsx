@@ -10,7 +10,7 @@ interface ViewToggleProps {
 
 export function ViewToggle({ view, onViewChange, onAddCity }: ViewToggleProps) {
   return (
-    <div className="flex w-[261px] items-center justify-between">
+    <div className="flex w-full items-center justify-between gap-3 sm:w-[261px]">
       <div className="flex w-[132px] items-center justify-between rounded-2xl bg-white p-0.5 dark:bg-white/5">
         <button
           type="button"

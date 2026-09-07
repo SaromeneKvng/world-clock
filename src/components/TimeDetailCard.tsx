@@ -24,7 +24,7 @@ export function TimeDetailCard({ label, city, instant, hour12, onSetInstant }: T
   }, 0);
 
   return (
-    <div className="flex flex-1 flex-col gap-4 overflow-hidden rounded-[20px] bg-white px-6 py-6 dark:bg-[#141416]">
+    <div className="flex flex-1 flex-col gap-4 overflow-hidden rounded-[20px] bg-white px-4 py-5 sm:px-6 sm:py-6 dark:bg-[#141416]">
       <div className="flex flex-col gap-1.5">
         <p className="text-sm tracking-[-0.28px] text-[#92939e] uppercase">{label}</p>
         <div className="flex items-center gap-1 whitespace-nowrap">
@@ -57,7 +57,7 @@ export function TimeDetailCard({ label, city, instant, hour12, onSetInstant }: T
         </div>
       </div>
 
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full flex-wrap items-center justify-between gap-2">
         <CategoryBadge category={category} />
         <p className="text-sm text-[#92939e] whitespace-nowrap">{city.timeZone}</p>
       </div>

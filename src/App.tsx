@@ -30,7 +30,7 @@ function App() {
   const cities: City[] = cityIds.map(findCity).filter((c): c is City => Boolean(c));
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-start gap-24 px-6 pt-12 pb-16 sm:px-12 lg:px-[200px]">
+    <div className="flex min-h-screen w-full flex-col items-start gap-12 px-4 pt-8 pb-10 xs:px-6 sm:gap-24 sm:px-12 sm:pt-12 sm:pb-16 lg:px-[200px]">
       <Header tab={tab} onTabChange={setTab} />
 
       {tab === "clock" ? (

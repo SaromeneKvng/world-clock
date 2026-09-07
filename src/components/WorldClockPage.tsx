@@ -45,8 +45,8 @@ export function WorldClockPage({
   const referenceOffsetMinutes = getOffsetMinutes(localPlace.timeZone, now);
 
   return (
-    <div className="flex w-full flex-col gap-12">
-      <div className="flex w-full flex-col gap-[45px]">
+    <div className="flex w-full flex-col gap-8 sm:gap-12">
+      <div className="flex w-full flex-col gap-6 sm:gap-[45px]">
         <PageHeading
           title="World Time Check"
           subtitle="What time is it there, right now?"
@@ -58,8 +58,8 @@ export function WorldClockPage({
         <LocalTimeCard place={localPlace} now={now} hour12={hour12} />
       </div>
 
-      <div className="flex w-full flex-col gap-12">
-        <div className="flex w-full items-center justify-between">
+      <div className="flex w-full flex-col gap-6 sm:gap-12">
+        <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
           <div className="flex items-center gap-4">
             <p className="font-display text-base text-black dark:text-white">Your cities</p>
             <div className="flex size-7 items-center justify-center rounded-full bg-white text-sm text-black dark:bg-white/10 dark:text-white">
@@ -72,7 +72,7 @@ export function WorldClockPage({
         {cities.length === 0 ? (
           <EmptyCitiesState />
         ) : view === "grid" ? (
-          <div className="grid w-full grid-cols-4 gap-2">
+          <div className="grid w-full grid-cols-1 gap-2 xs:grid-cols-2 lg:grid-cols-4">
             {cities.map((city) => (
               <CityCard
                 key={city.id}

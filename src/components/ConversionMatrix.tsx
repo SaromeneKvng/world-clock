@@ -130,64 +130,68 @@ export function ConversionMatrix({ origin, target, reference, hour12 }: Conversi
   });
 
   return (
-    <div className="flex w-full flex-col gap-[39px]">
-      <div className="flex w-full items-center justify-between">
+    <div className="flex w-full flex-col gap-6 sm:gap-[39px]">
+      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
         <div className="flex flex-1 flex-col gap-1">
           <p className="font-display text-xl font-medium text-black dark:text-white">Time Conversion Matrix</p>
           <p className="text-sm tracking-[-0.14px] text-[#92939e]">Browse corresponding local times, day offsets, and call suitability</p>
         </div>
-        <div className="flex h-10 items-center rounded-full bg-white p-0.5 dark:bg-white/5">
-          {FILTERS.map((f) => (
-            <button
-              key={f.id}
-              type="button"
-              onClick={() => setFilter(f.id)}
-              className={`flex h-full items-center justify-center rounded-full px-2 text-xs whitespace-nowrap transition-colors ${
-                filter === f.id ? "bg-[#f7f7f7] text-black dark:bg-white/10 dark:text-white" : "text-[#92939e]"
-              }`}
-            >
-              {f.label} ({counts[f.id]}h)
-            </button>
-          ))}
+        <div className="-mx-1 max-w-full overflow-x-auto px-1 sm:mx-0 sm:px-0">
+          <div className="flex h-10 w-max items-center rounded-full bg-white p-0.5 dark:bg-white/5">
+            {FILTERS.map((f) => (
+              <button
+                key={f.id}
+                type="button"
+                onClick={() => setFilter(f.id)}
+                className={`flex h-full items-center justify-center rounded-full px-2 text-xs whitespace-nowrap transition-colors ${
+                  filter === f.id ? "bg-[#f7f7f7] text-black dark:bg-white/10 dark:text-white" : "text-[#92939e]"
+                }`}
+              >
+                {f.label} ({counts[f.id]}h)
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="flex w-full flex-col overflow-hidden rounded-xl">
-        <div className="flex w-full items-center gap-14 border border-[#ededed] bg-[#e5e5e5] px-6 py-4 dark:border-white/10 dark:bg-white/10">
-          <p className="flex-1 text-base text-black dark:text-white">
-            {origin.name} <span className="text-[#92939e]">({new Intl.DateTimeFormat("en-US", { timeZone: origin.timeZone, timeZoneName: "short" }).formatToParts(reference).find((p) => p.type === "timeZoneName")?.value})</span>
-          </p>
-          <p className="flex-1 text-base text-black dark:text-white">
-            {target.name} <span className="text-[#92939e]">({new Intl.DateTimeFormat("en-US", { timeZone: target.timeZone, timeZoneName: "short" }).formatToParts(reference).find((p) => p.type === "timeZoneName")?.value})</span>
-          </p>
-          <p className="flex-1 text-right text-base text-black dark:text-white">Suitability</p>
-        </div>
+      <div className="w-full overflow-x-auto rounded-xl">
+        <div className="flex w-full min-w-[640px] flex-col overflow-hidden rounded-xl">
+          <div className="flex w-full items-center gap-14 border border-[#ededed] bg-[#e5e5e5] px-6 py-4 dark:border-white/10 dark:bg-white/10">
+            <p className="flex-1 text-base text-black dark:text-white">
+              {origin.name} <span className="text-[#92939e]">({new Intl.DateTimeFormat("en-US", { timeZone: origin.timeZone, timeZoneName: "short" }).formatToParts(reference).find((p) => p.type === "timeZoneName")?.value})</span>
+            </p>
+            <p className="flex-1 text-base text-black dark:text-white">
+              {target.name} <span className="text-[#92939e]">({new Intl.DateTimeFormat("en-US", { timeZone: target.timeZone, timeZoneName: "short" }).formatToParts(reference).find((p) => p.type === "timeZoneName")?.value})</span>
+            </p>
+            <p className="flex-1 text-right text-base text-black dark:text-white">Suitability</p>
+          </div>
 
-        <div className="flex max-h-[520px] w-full flex-col overflow-y-auto">
-          {visibleRows.map((row) => (
-            <div
-              key={row.hour}
-              className="flex w-full items-center gap-14 border-[0.5px] border-[#ededed] bg-white px-6 py-4 dark:border-white/5 dark:bg-[#141416]"
-            >
-              <div className="flex flex-1 items-center gap-2">
-                <span className="w-[75px] shrink-0 text-base text-black dark:text-white">{row.originLabel}</span>
-                <CategoryText category={row.originCategory} />
+          <div className="flex max-h-[520px] w-full flex-col overflow-y-auto">
+            {visibleRows.map((row) => (
+              <div
+                key={row.hour}
+                className="flex w-full items-center gap-14 border-[0.5px] border-[#ededed] bg-white px-6 py-4 dark:border-white/5 dark:bg-[#141416]"
+              >
+                <div className="flex flex-1 items-center gap-2">
+                  <span className="w-[75px] shrink-0 text-base text-black dark:text-white">{row.originLabel}</span>
+                  <CategoryText category={row.originCategory} />
+                </div>
+                <div className="flex flex-1 items-center gap-2">
+                  <span className="w-[75px] shrink-0 text-base text-black dark:text-white">{row.targetLabel}</span>
+                  {row.dayOffset !== 0 && (
+                    <span className="rounded-xl border border-[#ededed] px-3 py-1 text-sm text-[#52525b] dark:border-white/10 dark:text-white/60">
+                      {row.dayOffset > 0 ? "+" : ""}
+                      {row.dayOffset} Day
+                    </span>
+                  )}
+                  <CategoryText category={row.targetCategory} />
+                </div>
+                <div className="flex flex-1 justify-end">
+                  <SuitabilityText suitability={row.suitability} />
+                </div>
               </div>
-              <div className="flex flex-1 items-center gap-2">
-                <span className="w-[75px] shrink-0 text-base text-black dark:text-white">{row.targetLabel}</span>
-                {row.dayOffset !== 0 && (
-                  <span className="rounded-xl border border-[#ededed] px-3 py-1 text-sm text-[#52525b] dark:border-white/10 dark:text-white/60">
-                    {row.dayOffset > 0 ? "+" : ""}
-                    {row.dayOffset} Day
-                  </span>
-                )}
-                <CategoryText category={row.targetCategory} />
-              </div>
-              <div className="flex flex-1 justify-end">
-                <SuitabilityText suitability={row.suitability} />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

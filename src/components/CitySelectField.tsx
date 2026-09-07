@@ -13,7 +13,7 @@ export function CitySelectField({ city, now, onClick }: CitySelectFieldProps) {
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-xl border border-[#e5e7eb] px-6 py-3 text-left transition-colors hover:border-slate-300 dark:border-white/10 dark:hover:border-white/20"
+      className="flex w-full items-center gap-3 rounded-xl border border-[#e5e7eb] px-4 py-3 text-left transition-colors hover:border-slate-300 sm:px-6 dark:border-white/10 dark:hover:border-white/20"
     >
       <div className="flex flex-1 flex-col gap-0.5">
         <p className="font-display text-base font-medium text-black dark:text-white">{city.name}</p>

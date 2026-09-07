@@ -11,9 +11,9 @@ interface PageHeadingProps {
 
 export function PageHeading({ title, subtitle, hour12, onHour12Change, dark, onDarkChange }: PageHeadingProps) {
   return (
-    <div className="flex w-full items-start justify-between">
+    <div className="flex w-full flex-col items-start gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-0">
       <div className="flex max-w-[420px] flex-col gap-1">
-        <h1 className="font-display text-[32px] font-medium leading-tight text-black dark:text-white">{title}</h1>
+        <h1 className="font-display text-[26px] leading-tight font-medium text-black sm:text-[32px] dark:text-white">{title}</h1>
         <p className="text-base text-zinc-400 dark:text-white/40">{subtitle}</p>
       </div>
 

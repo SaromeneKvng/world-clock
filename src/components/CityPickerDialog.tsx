@@ -33,9 +33,12 @@ export function CityPickerDialog({ title = "Add a city", excludeIds = [], onSele
   }, [query, excludeIds]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/30 pt-[12vh]" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/30 px-4 pt-[6vh] sm:pt-[12vh]"
+      onClick={onClose}
+    >
       <div
-        className="flex max-h-[70vh] w-full max-w-[420px] flex-col overflow-hidden rounded-2xl bg-white shadow-xl dark:bg-[#18181b]"
+        className="flex max-h-[85vh] w-full max-w-[420px] flex-col overflow-hidden rounded-2xl bg-white shadow-xl sm:max-h-[70vh] dark:bg-[#18181b]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-white/10">
@@ -56,7 +59,7 @@ export function CityPickerDialog({ title = "Add a city", excludeIds = [], onSele
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search cities or countries…"
-            className="w-full bg-transparent text-sm text-black outline-none placeholder:text-zinc-400 dark:text-white"
+            className="w-full bg-transparent text-base text-black outline-none placeholder:text-zinc-400 sm:text-sm dark:text-white"
           />
         </div>
         <div className="flex-1 overflow-y-auto py-1">
@@ -69,7 +72,7 @@ export function CityPickerDialog({ title = "Add a city", excludeIds = [], onSele
                 onSelect(city);
                 onClose();
               }}
-              className="flex w-full items-center justify-between px-4 py-2.5 text-left hover:bg-slate-50 dark:hover:bg-white/5"
+              className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-slate-50 sm:py-2.5 dark:hover:bg-white/5"
             >
               <span className="text-sm font-medium text-black dark:text-white">{city.name}</span>
               <span className="text-xs text-zinc-400">{city.country}</span>
