@@ -10,8 +10,8 @@ interface ViewToggleProps {
 
 export function ViewToggle({ view, onViewChange, onAddCity }: ViewToggleProps) {
   return (
-    <div className="flex w-full items-center justify-between gap-3 sm:w-[261px]">
-      <div className="flex w-[132px] items-center justify-between rounded-2xl bg-white p-0.5 dark:bg-white/5">
+    <div className="flex w-full items-center justify-between gap-3 sm:w-[261px] sm:gap-0">
+      <div className="flex w-[132px] shrink-0 items-center justify-between rounded-2xl bg-white p-0.5 dark:bg-white/5">
         <button
           type="button"
           onClick={() => onViewChange("list")}
@@ -36,7 +36,7 @@ export function ViewToggle({ view, onViewChange, onAddCity }: ViewToggleProps) {
       <button
         type="button"
         onClick={onAddCity}
-        className="flex items-center gap-1.5 rounded-full bg-blue-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-800"
+        className="flex shrink-0 items-center gap-1.5 rounded-full bg-blue-900 px-4 py-2 text-sm font-medium whitespace-nowrap text-white transition-colors hover:bg-blue-800"
       >
         <PlusIcon className="size-4" />
         Add a city
