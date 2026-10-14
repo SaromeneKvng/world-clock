@@ -15,9 +15,12 @@ interface LocalTimeCardProps {
   place: LocalPlace;
   now: Date;
   hour12: boolean;
+  isOverridden: boolean;
+  onChangeCity: () => void;
+  onResetCity: () => void;
 }
 
-export function LocalTimeCard({ place, now, hour12 }: LocalTimeCardProps) {
+export function LocalTimeCard({ place, now, hour12, isOverridden, onChangeCity, onResetCity }: LocalTimeCardProps) {
   const time = getTimeParts(now, place.timeZone, hour12);
   const offsetMinutes = getOffsetMinutes(place.timeZone, now);
   const abbrev = getTimeZoneAbbreviation(place.timeZone, now);
@@ -37,7 +40,16 @@ export function LocalTimeCard({ place, now, hour12 }: LocalTimeCardProps) {
   return (
     <div className="flex w-full flex-col items-end gap-6 overflow-hidden rounded-[28px] bg-white p-5 xs:p-6 sm:gap-[38px] sm:p-8 dark:bg-[#141416]">
       <div className="relative w-full border-b border-[#f1f5f9] pb-6 sm:pb-9 dark:border-white/10">
-        <p className="text-[14px] uppercase tracking-[-0.56px] text-zinc-400 dark:text-white/40">Your local time</p>
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-[14px] uppercase tracking-[-0.56px] text-zinc-400 dark:text-white/40">Your local time</p>
+          <button
+            type="button"
+            onClick={onChangeCity}
+            className="shrink-0 text-sm font-medium text-zinc-500 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-black dark:text-white/60 dark:decoration-white/20 dark:hover:text-white"
+          >
+            Change
+          </button>
+        </div>
         <div className="flex items-center gap-2 py-2 text-black xs:gap-3 sm:gap-4 dark:text-white">
           <span className="font-display text-[56px] leading-none font-semibold xs:text-[76px] sm:text-[128px]">
             {time.hour}:{time.minute}
@@ -53,6 +65,15 @@ export function LocalTimeCard({ place, now, hour12 }: LocalTimeCardProps) {
             {place.name}
             {place.country ? `, ${place.country}` : ""}
           </p>
+          {isOverridden && (
+            <button
+              type="button"
+              onClick={onResetCity}
+              className="self-start text-sm text-zinc-400 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-black dark:text-white/40 dark:decoration-white/20 dark:hover:text-white"
+            >
+              Use device location
+            </button>
+          )}
           <p className="text-base text-zinc-400 dark:text-white/40">{formatFullDate(now, place.timeZone)}</p>
           <p className="text-base text-zinc-400 dark:text-white/40">{gmtLabel}</p>
         </div>

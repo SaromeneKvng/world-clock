@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { CITIES, findCity } from "../lib/cities";
+import { CITIES } from "../lib/cities";
+import { findCityAny, saveCustomCity } from "../lib/customCities";
 import { CitySelectField } from "./CitySelectField";
 import { CityPickerDialog } from "./CityPickerDialog";
 import { ConversionMatrix } from "./ConversionMatrix";
@@ -31,8 +32,8 @@ export function TimeConverterPage({ now, hour12, onHour12Change, dark, onDarkCha
   const [manualInstant, setManualInstant] = useState<Date | null>(null);
   const [pickerFor, setPickerFor] = useState<"origin" | "target" | null>(null);
 
-  const origin = findCity(originId) ?? CITIES[0];
-  const target = findCity(targetId) ?? CITIES[1];
+  const origin = findCityAny(originId) ?? CITIES[0];
+  const target = findCityAny(targetId) ?? CITIES[1];
   const instant = manualInstant ?? now;
 
   const originOffset = getOffsetMinutes(origin.timeZone, instant);
@@ -117,7 +118,11 @@ export function TimeConverterPage({ now, hour12, onHour12Change, dark, onDarkCha
         <CityPickerDialog
           title={pickerFor === "origin" ? "Choose the origin city" : "Choose the target city"}
           excludeIds={pickerFor === "origin" ? excludeForOrigin : excludeForTarget}
-          onSelect={(city) => (pickerFor === "origin" ? setOriginId(city.id) : setTargetId(city.id))}
+          onSelect={(city) => {
+            saveCustomCity(city);
+            if (pickerFor === "origin") setOriginId(city.id);
+            else setTargetId(city.id);
+          }}
           onClose={() => setPickerFor(null)}
         />
       )}

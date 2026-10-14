@@ -58,6 +58,68 @@ export function findCity(id: string): City | undefined {
   return CITIES.find((c) => c.id === id);
 }
 
+/** True when Intl recognises the IANA time zone (guards remote results). */
+export function isValidTimeZone(timeZone: string): boolean {
+  try {
+    new Intl.DateTimeFormat("en-US", { timeZone }).format(new Date());
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Lowercase, strip diacritics ("São" → "sao"), collapse whitespace. */
+export function normalizeSearchText(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function scoreCity(tokens: string[], nameNorm: string, haystack: string): number | null {
+  // Every token must appear in "name country" for the city to match.
+  for (const token of tokens) {
+    if (!haystack.includes(token)) return null;
+  }
+  if (nameNorm === tokens.join(" ")) return 0;
+  if (nameNorm.startsWith(tokens[0]) && tokens.length === 1) return 1;
+  const words = nameNorm.split(" ");
+  if (tokens.every((t) => words.some((w) => w.startsWith(t)))) return 2;
+  if (nameNorm.includes(tokens[0])) return 3;
+  return 4;
+}
+
+/**
+ * Robust local search: diacritic-insensitive, multi-token
+ * ("sao paulo", "san fran"), matches name or country.
+ */
+export function searchLocalCities(query: string, excludeIds: string[] = [], limit = 40): City[] {
+  const q = normalizeSearchText(query);
+  const tokens = q.split(" ").filter(Boolean);
+  const excluded = new Set(excludeIds);
+
+  if (tokens.length === 0) {
+    return CITIES.filter((c) => !excluded.has(c.id)).slice(0, limit);
+  }
+
+  const scored: { city: City; score: number }[] = [];
+  for (const city of CITIES) {
+    if (excluded.has(city.id)) continue;
+    const nameNorm = normalizeSearchText(city.name);
+    const countryNorm = normalizeSearchText(city.country);
+    const haystack = `${nameNorm} ${countryNorm}`;
+    const score = scoreCity(tokens, nameNorm, haystack);
+    if (score !== null) scored.push({ city, score });
+  }
+  scored.sort(
+    (a, b) => a.score - b.score || a.city.name.length - b.city.name.length || a.city.name.localeCompare(b.city.name),
+  );
+  return scored.slice(0, limit).map((s) => s.city);
+}
+
 /** Best-effort match of the device's IANA time zone to a known city. */
 export function findCityByTimeZone(timeZone: string): City | undefined {
   return CITIES.find((c) => c.timeZone === timeZone);

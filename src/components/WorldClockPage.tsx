@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { City } from "../lib/cities";
 import { getOffsetMinutes } from "../lib/time";
 import { CityPickerDialog } from "./CityPickerDialog";
@@ -17,6 +18,9 @@ interface WorldClockPageProps {
   onDarkChange: (dark: boolean) => void;
   localPlace: LocalPlace;
   cities: City[];
+  isLocalOverridden: boolean;
+  onSelectLocalCity: (city: City) => void;
+  onResetLocalCity: () => void;
   onAddCity: (city: City) => void;
   onRemoveCity: (id: string) => void;
   view: ViewMode;
@@ -34,6 +38,9 @@ export function WorldClockPage({
   onDarkChange,
   localPlace,
   cities,
+  isLocalOverridden,
+  onSelectLocalCity,
+  onResetLocalCity,
   onAddCity,
   onRemoveCity,
   view,
@@ -42,6 +49,7 @@ export function WorldClockPage({
   onOpenAddDialog,
   onCloseAddDialog,
 }: WorldClockPageProps) {
+  const [localDialogOpen, setLocalDialogOpen] = useState(false);
   const referenceOffsetMinutes = getOffsetMinutes(localPlace.timeZone, now);
 
   return (
@@ -55,7 +63,14 @@ export function WorldClockPage({
           dark={dark}
           onDarkChange={onDarkChange}
         />
-        <LocalTimeCard place={localPlace} now={now} hour12={hour12} />
+        <LocalTimeCard
+          place={localPlace}
+          now={now}
+          hour12={hour12}
+          isOverridden={isLocalOverridden}
+          onChangeCity={() => setLocalDialogOpen(true)}
+          onResetCity={onResetLocalCity}
+        />
       </div>
 
       <div className="flex w-full flex-col gap-6 sm:gap-12">
@@ -108,6 +123,14 @@ export function WorldClockPage({
           excludeIds={cities.map((c) => c.id)}
           onSelect={onAddCity}
           onClose={onCloseAddDialog}
+        />
+      )}
+
+      {localDialogOpen && (
+        <CityPickerDialog
+          title="Choose your local city"
+          onSelect={onSelectLocalCity}
+          onClose={() => setLocalDialogOpen(false)}
         />
       )}
     </div>
