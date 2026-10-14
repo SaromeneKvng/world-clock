@@ -2,6 +2,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { getLocalYMD, getTimeOptionsForDay, getTimeParts, zonedTimeToInstant } from "../lib/time";
 import { ClockIcon } from "./icons";
 
+const pad = (n: number) => String(n).padStart(2, "0");
+
 interface TimeSlotSelectProps {
   label: string;
   timeZone: string;
@@ -25,6 +27,12 @@ export function TimeSlotSelect({ label, timeZone, instant, hour12, onChange }: T
   }, 0);
 
   const currentPeriod = getTimeParts(instant, timeZone, true).dayPeriod === "PM" ? "PM" : "AM";
+
+  // The period stays visible on the trigger in both 12H and 24H modes.
+  const wall12 = getTimeParts(instant, timeZone, true);
+  const triggerTime = hour12
+    ? `${pad(Number(wall12.hour))}:${pad(Number(wall12.minute))}`
+    : options[selectedIndex].label;
 
   function setPeriod(period: "AM" | "PM") {
     if (!hour12 || period === currentPeriod) return;
@@ -113,7 +121,10 @@ export function TimeSlotSelect({ label, timeZone, instant, hour12, onChange }: T
           onClick={() => setOpen((v) => !v)}
           className="flex items-center gap-1.5 rounded-lg border border-[#e5e5e5] bg-[#fafaf9] px-2 py-1 text-sm text-[#757575] transition-colors outline-none hover:border-slate-300 focus-visible:ring-2 focus-visible:ring-blue-900/40 dark:border-white/10 dark:bg-white/5 dark:text-white/70 dark:hover:border-white/20 dark:focus-visible:ring-white/40"
         >
-          <span className="tabular-nums">{options[selectedIndex].label}</span>
+          <span className="tabular-nums">{triggerTime}</span>
+          <span className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[11px] font-semibold text-black dark:bg-white/10 dark:text-white">
+            {currentPeriod}
+          </span>
           <ClockIcon className="size-4" />
         </button>
 
