@@ -67,6 +67,15 @@ export function XIcon({ className = "size-4", strokeWidth = 1.8 }: IconProps) {
   );
 }
 
+export function ClockIcon({ className = "size-4", strokeWidth = 1.8 }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </svg>
+  );
+}
+
 export function ChevronDownIcon({ className = "size-4", strokeWidth = 1.8 }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">

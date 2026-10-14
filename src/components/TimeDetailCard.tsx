@@ -1,5 +1,5 @@
 import type { City } from "../lib/cities";
-import { categorizeHour, formatUtcOffset, getHourInZone, getOffsetMinutes, getTimeOptionsForDay, getTimeParts } from "../lib/time";
+import { categorizeHour, formatUtcOffset, getHourInZone, getOffsetMinutes, getTimeParts } from "../lib/time";
 import { CategoryBadge } from "./CategoryBadge";
 import { TimeSlotSelect } from "./TimeSlotSelect";
 
@@ -15,16 +15,9 @@ export function TimeDetailCard({ label, city, instant, hour12, onSetInstant }: T
   const time = getTimeParts(instant, city.timeZone, hour12);
   const offsetMinutes = getOffsetMinutes(city.timeZone, instant);
   const category = categorizeHour(getHourInZone(instant, city.timeZone));
-  const options = getTimeOptionsForDay(instant, city.timeZone, hour12);
-
-  const selectedIndex = options.reduce((best, opt, i) => {
-    const bestDiff = Math.abs(options[best].instant.getTime() - instant.getTime());
-    const diff = Math.abs(opt.instant.getTime() - instant.getTime());
-    return diff < bestDiff ? i : best;
-  }, 0);
 
   return (
-    <div className="flex flex-1 flex-col gap-4 overflow-hidden rounded-[20px] bg-white px-4 py-5 sm:px-6 sm:py-6 dark:bg-[#141416]">
+    <div className="flex flex-1 flex-col gap-4 rounded-[20px] bg-white px-4 py-5 sm:px-6 sm:py-6 dark:bg-[#141416]">
       <div className="flex flex-col gap-1.5">
         <p className="text-sm tracking-[-0.28px] text-[#92939e] uppercase">{label}</p>
         <div className="flex items-center gap-1 whitespace-nowrap">
@@ -35,9 +28,10 @@ export function TimeDetailCard({ label, city, instant, hour12, onSetInstant }: T
 
       <TimeSlotSelect
         label={`Set ${city.name} time:`}
-        options={options}
-        selectedIndex={selectedIndex}
-        onChange={(i) => onSetInstant(options[i].instant)}
+        timeZone={city.timeZone}
+        instant={instant}
+        hour12={hour12}
+        onChange={onSetInstant}
       />
 
       <div className="flex w-full flex-col items-start rounded-2xl bg-[#fafafa] px-4 pt-3 pb-4 dark:bg-white/5">
